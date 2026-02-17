@@ -1,7 +1,5 @@
 from modules import application, main_window
 
-city_name = "Дніпро"
-
 def main():
     try:
         main_window.show()

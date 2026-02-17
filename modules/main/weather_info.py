@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame
 
@@ -7,13 +7,10 @@ class WeatherInfo(QFrame):
     def __init__(self):
         QFrame.__init__(self)
         self.setFixedSize(390, 303)
-        self.setStyleSheet("""
-                        background-color: rgba(0, 0, 0, 0.2);
-                        border-radius: 20px
-        """)
+
         self.layout1 = QVBoxLayout()
         self.layout2 = QHBoxLayout()
-
+        self.layout3 = QHBoxLayout()
 
         self.city_name = QLabel("Дніпро")
         self.city_name.setFont(QFont("Arial", 20, QFont.Weight.Bold))
@@ -22,12 +19,24 @@ class WeatherInfo(QFrame):
         self.city_name.setContentsMargins(0, 30, 0, 0)
         self.layout1.addWidget(self.city_name)
 
+        self.weather_image = QPixmap("images/weather.svg")
+        self.weather_image = self.weather_image.scaled(170, 170)
+       
+        self.weather_image_label = QLabel()
+        self.weather_image_label.setPixmap(self.weather_image)
+        self.weather_image_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.weather_image_label.setStyleSheet("background-color: transparent")
+        self.weather_image_label.setFixedSize(375, 190)
+        self.weather_image_label.setContentsMargins(50, 0, 20, 30)
+        self.weather_image_label.setLayout(self.layout3)
+        self.layout1.addWidget(self.weather_image_label)
+
         self.temp = QLabel("25°C")
-        self.temp.setFont(QFont("Arial", 40))  
-        self.temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.temp.setFont(QFont("Arial", 45))  
+        self.temp.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.temp.setStyleSheet("background-color: transparent")
-        self.temp.setContentsMargins(125, 40, 0, 0)
-        self.layout1.addWidget(self.temp)
+        self.temp.setContentsMargins(0, 40, 0, 0)
+        self.layout3.addWidget(self.temp)
 
         self.description = QLabel("Сонячно")
         self.description.setFont(QFont("Arial", 14))
@@ -52,4 +61,8 @@ class WeatherInfo(QFrame):
 
         self.setLayout(self.layout1)
         self.layout1.addLayout(self.layout2)
-        self.setStyleSheet("background-color: rgba(0, 0, 0, 0.2)")
+        self.layout1.addLayout(self.layout3)
+        self.setStyleSheet("""
+                        background-color: rgba(0, 0, 0, 0.2);
+                        border-radius: 20px;
+        """)
